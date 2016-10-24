@@ -155,6 +155,8 @@ meanAndStdSummary <- meanAndStdSummary %>%
   group_by(Activity, Subject) %>%
   summarise_each(funs(mean))
 
+write.table(meanAndStdSummary, "final_table.txt", row.names = FALSE)
+
 ##############################################################################################################################
 ## END
 ##############################################################################################################################
