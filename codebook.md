@@ -21,7 +21,7 @@ For each record in the dataset it is provided:
 
 ## Tasks
 
-### Task 1 & 3. 1: Merge the training and the test sets to create one data set. 3: Use descriptive activity names to name the activities in the data set.
+### Task 1 & 3: (1) Merge the training and the test sets to create one data set. (3) Use descriptive activity names to name the activities in the data set.
 After setting the source directory for the files, read into tables the data located in
 - features.txt
 - activity_labels.txt
