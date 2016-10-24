@@ -19,7 +19,9 @@ For each record in the dataset it is provided:
 - Its activity label. 
 - An identifier of the subject who carried out the experiment.
 
-### Task 1. Merge the training and the test sets to create one data set.
+## Tasks
+
+### Task 1 & 3. 1: Merge the training and the test sets to create one data set. 3: Use descriptive activity names to name the activities in the data set.
 After setting the source directory for the files, read into tables the data located in
 - features.txt
 - activity_labels.txt
@@ -30,14 +32,15 @@ After setting the source directory for the files, read into tables the data loca
 - x_test.txt
 - y_test.txt
 
+Merge data subset with the activityType table to include the descriptive activity names.
+
 Assign column names and merge to create one data set.
 
-## Section 2. Extract only the measurements on the mean and standard deviation for each measurement. 
-Create a logcal vector that contains TRUE values for the ID, mean and stdev columns and FALSE values for the others.
-Subset this data to keep only the necessary columns.
+### Section 2. Extract only the measurements on the mean and standard deviation for each measurement. 
+Create an vector of the indicies of each of the relevant variables, then subset the full dataset to keep only those variables, while retaining the Subject and Activity columns.
 
-## Section 3. Use descriptive activity names to name the activities in the data set
-Merge data subset with the activityType table to cinlude the descriptive activity names
+## Section 3. 
+-see section 1-
 
 ## Section 4. Appropriately label the data set with descriptive activity names.
 Use gsub function for pattern replacement to clean up the data labels.
