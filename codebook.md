@@ -39,11 +39,11 @@ Assign column names and merge to create one data set.
 ### Section 2. Extract only the measurements on the mean and standard deviation for each measurement. 
 Create an vector of the indicies of each of the relevant variables, then subset the full dataset to keep only those variables, while retaining the Subject and Activity columns.
 
-## Section 3. 
+### Section 3. 
 -see section 1-
 
-## Section 4. Appropriately label the data set with descriptive activity names.
+### Section 4. Appropriately label the data set with descriptive activity names.
 Use gsub function for pattern replacement to clean up the data labels.
 
-## Section 5. Create a second, independent tidy data set with the average of each variable for each activity and each subject. 
+### Section 5. Create a second, independent tidy data set with the average of each variable for each activity and each subject. 
 Per the project instructions, we need to produce only a data set with the average of each veriable for each activity and subject
