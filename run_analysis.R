@@ -1,3 +1,5 @@
+PROBLEM OCCURS SOME TIME BEFORE ALLDATA IS CREATED - SOME TIME IN THE CREATION OF THE TEST AND TRAINING TABLES - COULD MERGE() BE ISSUE?
+
 ##############################################################################################################################
 ## START
 ##############################################################################################################################
@@ -34,9 +36,11 @@
 # From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 ##############################################################################################################################
 
-## Merge training and test data + add in descriptive activity labels (see both instances of the activityMerged variable)
+## Merge training and test data + add in descriptive activity labels (see lines activityMerged variable below)
 
 # Download and save the raw data
+
+library(dplyr)
 
 setwd("C:/Users/will.granger/Dropbox/Training/Johns Hopkins Data Science/Get Clean Data wk 4/Course Project")
 url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
@@ -67,13 +71,14 @@ names(activityType) <- c("ActivityID","Activity")
 
 # Merge into one dataset
 
-activityMerged <- merge(activityType, trainingLabels) ## this adds the descriptive activity labels to each row, rather than using a factor number
-trainingData <- cbind(trainingSet, activityMerged[,2], subjectTrain)
-colnames(trainingData)[562] <- "Activity"
+trainingData <- cbind(trainingSet, trainingLabels, subjectTrain)
+valid_column_names <- make.names(names=names(trainingData), unique=TRUE, allow_ = TRUE)
+names(trainingData) <- valid_column_names
+trainingData <- trainingData %>% inner_join(activityType) %>% select(-ActivityID) ## this adds the descriptive activity labels to each row, rather than using a factor number
 
 # Clean up
 
-rm(list = c("trainingSet","trainingLabels","subjectTrain"))
+rm(list = c("trainingSet","trainingLabels","subjectTrain", "valid_column_names"))
 
 ## Test data
 
@@ -91,9 +96,10 @@ names(testLabels) <- "ActivityID"
 
 # Merge into one dataset
 
-activityMerged <- merge(activityType, testLabels)
-testData <- cbind(testSet, activityMerged[,2], subjectTest)
-colnames(testData)[562] <- "Activity"
+testData <- cbind(testSet, testLabels, subjectTest)
+valid_column_names <- make.names(names=names(testData), unique=TRUE, allow_ = TRUE)
+names(testData) <- valid_column_names
+testData <- testData %>% inner_join(activityType) %>% select(-ActivityID) ## this adds the descriptive activity labels to each row, rather than using a factor number
 
 ## Make combined test + training dataset
 
@@ -107,7 +113,7 @@ rm(list = c("testSet","testLabels","subjectTest","features","activityMerged","ac
 
 ## Select only the mean and standard deviation variables
 
-varsToKeep <- grep("mean\\(\\)|std\\(\\)", names(allData)) ## searching only for 'mean' brings up the meanFreq variables as well, so escape characters needed to search for 'mean()'
+varsToKeep <- grep("mean\\.|std\\.", names(allData)) ## searching only for 'mean' brings up the meanFreq variables as well, so escape characters needed to search for 'mean()'
 varsToKeep <- c(varsToKeep, 562, 563) ## we also need to keep the 'names' and 'activity' columns
 
 meanAndStd <- allData[,varsToKeep]
@@ -144,12 +150,11 @@ colnames(meanAndStd) <- colNames ## apply the new column names
 
 ## New tidy dataset averaging each variable by activity and subject
 
-library(dplyr)
-
 meanAndStdSummary <- meanAndStd
 meanAndStdSummary$Subject <- factor(meanAndStdSummary$Subject)
 
-meanAndStdSummary %>% group_by(Activity, Subject) %>% summarise() %>% select(Activity, Subject) ## confirming there are 40 unique combinations of subject + activity
+meanAndStdSummary %>% group_by(Subject, Activity) %>% summarise() %>% select(Activity, Subject) ## confirming there are 40 unique combinations of subject + activity
+allData %>% group_by(Subject, Activity) %>% summarise() %>% select(Activity, Subject) ## confirming there are 40 unique combinations of subject + activity
 
 meanAndStdSummary <- meanAndStdSummary %>%
   group_by(Activity, Subject) %>%
