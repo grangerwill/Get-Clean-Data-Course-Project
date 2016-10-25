@@ -34,7 +34,7 @@
 # From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 ##############################################################################################################################
 
-## Merge training and test data + add in descriptive activity labels (see lines activityMerged variable below)
+## Merge training and test data + add in descriptive activity labels (see lines activityType variable below)
 
 # Download and save the raw data
 
