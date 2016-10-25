@@ -95,7 +95,7 @@ names(testLabels) <- "ActivityID"
 # Merge into one dataset
 
 testData <- cbind(testSet, testLabels, subjectTest)
-valid_column_names <- make.names(names=names(testData), unique=TRUE, allow_ = TRUE)
+valid_column_names <- make.names(names=names(testData), unique=TRUE, allow_ = TRUE) ## get rid of duplicate column names
 names(testData) <- valid_column_names
 testData <- testData %>% inner_join(activityType) %>% select(-ActivityID) ## this adds the descriptive activity labels to each row, rather than using a factor number
 
@@ -111,7 +111,7 @@ rm(list = c("testSet","testLabels","subjectTest","features","activityMerged","ac
 
 ## Select only the mean and standard deviation variables
 
-varsToKeep <- grep("mean\\.|std\\.", names(allData)) ## searching only for 'mean' brings up the meanFreq variables as well, so escape characters needed to search for 'mean()'
+varsToKeep <- grep("mean\\.|std\\.", names(allData)) ## searching only for 'mean' brings up the meanFreq variables as well, so escape characters needed to search for 'mean.'
 varsToKeep <- c(varsToKeep, 562, 563) ## we also need to keep the 'names' and 'activity' columns
 
 meanAndStd <- allData[,varsToKeep]
@@ -151,8 +151,7 @@ colnames(meanAndStd) <- colNames ## apply the new column names
 meanAndStdSummary <- meanAndStd
 meanAndStdSummary$Subject <- factor(meanAndStdSummary$Subject)
 
-meanAndStdSummary %>% group_by(Subject, Activity) %>% summarise() %>% select(Activity, Subject) ## confirming there are 40 unique combinations of subject + activity
-allData %>% group_by(Subject, Activity) %>% summarise() %>% select(Activity, Subject) ## confirming there are 40 unique combinations of subject + activity
+meanAndStdSummary %>% group_by(Subject, Activity) %>% summarise() %>% select(Activity, Subject) ## confirming there are 180 unique combinations of subject + activity
 
 meanAndStdSummary <- meanAndStdSummary %>%
   group_by(Activity, Subject) %>%
